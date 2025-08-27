@@ -31,7 +31,13 @@ void main()
     if (i == iterations) {
         fragColor = vec4(0.0, 0.0, 0.0, 1.0);
     } else {
-        float t = float(i) / float(iterations);
-        fragColor = vec4(t, t*0.8, 0.5, 1.0);
+        float t = float(i) - log2(log2(dot(z, z))) + 4.0;
+        t = t / float(iterations);
+        
+        float r = 0.5 + 0.5 * cos(6.28318 * t + 0.0);
+        float g = 0.5 + 0.5 * cos(6.28318 * t + 2.094);
+        float b = 0.5 + 0.5 * cos(6.28318 * t + 4.188);
+        
+        fragColor = vec4(r, g, b, 1.0);
     }
 }

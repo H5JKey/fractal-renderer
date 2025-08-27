@@ -1,6 +1,7 @@
 add_executable(fractal_renderer
     main.cpp
     renderer.cpp
+    animation.cpp
 )
 
 target_link_libraries(fractal_renderer
