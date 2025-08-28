@@ -23,11 +23,13 @@ float Animation::getCurrentZoom() const {
 }
 
 void Animation::run(sf::Time ellapsedTime) {
-    progress+=ellapsedTime.asSeconds()*speed;
     if (progress>1) {
         if (step<zooms.size()-1) {
             progress = 0;
             step+=1;
         }
+    }
+    else {
+        progress+=ellapsedTime.asSeconds()*speed;
     }
 }

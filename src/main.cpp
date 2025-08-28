@@ -5,7 +5,9 @@
 
 int main(int argc, char* argv[])
 {
-    sf::RenderWindow window(sf::VideoMode({800u, 600u}), "Fractal Renderer");
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;
+    sf::RenderWindow window(sf::VideoMode({800u, 600u}), "Fractal Renderer", sf::Style::Default, settings);
     window.setFramerateLimit(60);
 
     Renderer renderer("shader.glsl");
