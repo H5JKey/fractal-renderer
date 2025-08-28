@@ -10,7 +10,8 @@ Animation::Animation(const std::string& configFilePath) {
         points.push_back(sf::Vector2f(x,y));
         zooms.push_back(zoom);
     }
-    speed = 0.1;
+    speed = 0.4;
+    fin.close();
 }
 
 sf::Vector2f Animation::getCurrentPoint() const {
