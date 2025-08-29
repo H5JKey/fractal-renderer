@@ -9,9 +9,12 @@ private:
     float speed;
     int step;
     float progress;
+    bool m_isAnimating;
 public:
     float getCurrentZoom() const;
     sf::Vector2f getCurrentPoint() const;
-    Animation(const std::string& configFilePath);
+    Animation();
     void run(sf::Time ellapsedTime);
+    void loadFromFile(const std::string& configFilePath);
+    bool isAnimating();
 };

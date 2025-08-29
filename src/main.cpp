@@ -11,14 +11,16 @@ int main(int argc, char* argv[])
     window.setFramerateLimit(60);
 
     Renderer renderer("shader.glsl");
-
-    if (argc<2) {
-        std::cerr << "Usage: " << argv[0] << " <animation_config_file>" << std::endl;
-        return 1;
+    Animation animation;
+    if (argc >= 2) {
+       animation.loadFromFile(argv[1]);
     }
-    Animation animation(argv[1]);
 
+    
+    sf::Vector2f center = {-0.5f, 0.0f};
+    float zoom = 1.0f;
     sf::Clock timer;
+    
     while (window.isOpen())
     {
         sf::Event event;
@@ -27,10 +29,36 @@ int main(int argc, char* argv[])
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
+            if (!animation.isAnimating()) {
+                if (event.type == sf::Event::MouseWheelMoved) {
+                    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+                    float windowWidth = static_cast<float>(window.getSize().x);
+                    float windowHeight = static_cast<float>(window.getSize().y);
+                    
+                    sf::Vector2f fragCoord(mousePosition.x, windowHeight - mousePosition.y);
+                    sf::Vector2f uv = (2.0f * fragCoord - sf::Vector2f(windowWidth, windowHeight)) / windowHeight;
+                    
+                    sf::Vector2f worldPosBefore = uv / zoom + center;
+                    
+                    if (event.mouseWheel.delta > 0) {
+                        zoom *= 1.2f;
+                    } else {
+                        zoom *= 0.83f;
+                    }
+                    
+                    sf::Vector2f worldPosAfter = uv / zoom + center;
+
+                    center += worldPosBefore - worldPosAfter;
+                }
+            }
+        }
+        if (animation.isAnimating()) {
+            animation.run(timer.restart());
+            center = animation.getCurrentPoint();
+            zoom = animation.getCurrentZoom();
         }
         
-        renderer.setView(animation.getCurrentPoint(), animation.getCurrentZoom());
-        animation.run(timer.restart());
+        renderer.setView(center, zoom);
         window.clear();
         renderer.render(window);
         window.display();

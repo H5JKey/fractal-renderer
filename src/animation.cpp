@@ -1,7 +1,13 @@
 #include "animation.hpp"
 #include <fstream>
 
-Animation::Animation(const std::string& configFilePath) {
+Animation::Animation() {
+    step = 1;
+    speed = 0.4;
+    m_isAnimating = false;
+}
+
+void Animation::loadFromFile(const std::string& configFilePath) {
     step = 1;
     std::ifstream fin(configFilePath);
     if (!fin.is_open()) throw std::runtime_error("No such file: "+configFilePath);
@@ -11,6 +17,7 @@ Animation::Animation(const std::string& configFilePath) {
         zooms.push_back(zoom);
     }
     speed = 0.4;
+    m_isAnimating = true;
     fin.close();
 }
 
@@ -32,4 +39,8 @@ void Animation::run(sf::Time ellapsedTime) {
     else {
         progress+=ellapsedTime.asSeconds()*speed;
     }
+}
+
+bool Animation::isAnimating() {
+    return m_isAnimating;
 }
