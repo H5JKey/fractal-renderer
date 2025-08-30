@@ -24,5 +24,4 @@ git clone https://github.com/H5JKey/fractal-renderer.git
 mkdir build && cd build
 cmake ..
 cmake --build .
-./fractal_renderer
 ```
