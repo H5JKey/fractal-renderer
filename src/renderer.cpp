@@ -8,18 +8,12 @@ Renderer::Renderer(const std::string& path) {
 }
 
 void Renderer::render(sf::RenderWindow& window) {
-    shader.setUniform("u_resolution", sf::Vector2f(window.getSize()));
+    shader.setUniform("u_resolution", static_cast<sf::Vector2f>(window.getSize()));
     shader.setUniform("u_center", center);
     shader.setUniform("u_zoom", zoom);
     
-    sf::RenderTexture tex;
-	tex.create(window.getSize().x, window.getSize().y);
-	sf::Sprite spr(tex.getTexture());
-    spr.setScale(1, -1);
-    spr.setPosition(0, window.getSize().y);
-
-    tex.draw(spr, &shader);
-    window.draw(spr);
+    sf::RectangleShape rect(sf::Vector2f(window.getSize()));
+    window.draw(rect, &shader);
 }
 
 void Renderer::setView(sf::Vector2f center, float zoom) {
