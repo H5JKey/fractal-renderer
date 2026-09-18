@@ -9,7 +9,7 @@ Basic program with rendering mandelbrot set and zooming into.
 ```sh
 ./fractal_renderer
 ```
-Run the programm in exploring mode. This mod allows to move and zoom camera.
+Run the program in exploring mode. This mode allows to move and zoom camera.
 
 ```sh
 ./fractal_renderer <path_to_config_file>
